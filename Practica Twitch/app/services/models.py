@@ -16,7 +16,7 @@ from app.core.config import (
     KERAS_MODEL,
     TOKENIZER_MODEL,
     SEQUENCE_LENGTH,
-    SENTIMENT_THRESHOLD,
+    TROLL_THRESHOLD,
 )
 
 
@@ -39,10 +39,10 @@ class SentimentAnalysisModel:
 
 # Se cambia la función de   _decode_sentiment. Se trae el mismo código del caso del batch          
     def _decode_sentiment(self, score):
-        if score == 1:
-          return POSITIVE
-        elif score == 0:
-          return NEGATIVE
+        if score >= TROLL_THRESHOLD:
+          return NOTROLL
+        else:
+          return TROLL
 
     def _pre_process(self, payload: TextPayload) -> str:
         logger.debug("Pre-processing payload.")
